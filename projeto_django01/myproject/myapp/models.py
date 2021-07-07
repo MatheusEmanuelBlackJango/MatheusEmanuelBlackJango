@@ -10,31 +10,29 @@ class Thing(DynaModel):
         resource_kwargs = {
             'region_name': 'us-east-1'
         }
-        name = 'django-tabela'.format(env=os.environ.get('ENVIRONMENT', 'dev'))
-        hash_key = 'key_partition'
+        name = 'table-teste'.format(env=os.environ.get('ENVIRONMENT', 'dev'))
+        hash_key = 'hash'
+        sort_key = 'sort'
         read = 10
         write = 10
 
     class Schema:
-        key_partition = fields.String(required=True)
-        carga_do_banco = fields.Dict(required=True)
-        corrente = fields.String()
-        tensão = fields.String()
-        dados = fields.Number()
-        dados2 = fields.Number()
+        key2 = fields.String()
+        key1 = fields.String()
+        key3 = fields.String()
+        key4 = fields.String()
+        hash = fields.String(required=True)
+        sort = fields.String(required=True)
+        coluna = fields.List(cls_or_instance=fields.Float())
 
     def say_hello(self):
-        print("{dados}".format(
-            dados=self.dados,
-            carga_da_banco=self.carga_do_banco,
-            corrente=self.corrente,
-            tensão=self.tensão,
-
+        print("{coluna}".format(
+            coluna1=self.coluna1
         ))
 
 
 if __name__ == '__main__':
-    thing = Thing.get(key_partition="key_partition")
+    thing = Thing.get(hash="hash", sort="sort")
     if thing:
         print("\nItens requiridos com sucesso:\n")
         pprint(thing.say_hello())
